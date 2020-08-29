@@ -5,7 +5,7 @@
 
 const char* ssid = "Isabela";
 const char* password = "230278isa";
-const char* Broker_MQTT = "broker.mqtt-dashboard.com";
+const char* Broker_MQTT = "mqtt.eclipse.org";
 char Message[MSG_Buffer_Size];
 int value = 0;
 
@@ -33,7 +33,7 @@ void loop() {
   snprintf (Message, MSG_Buffer_Size, "hello world #%ld", value);
   Serial.print("Publish message: ");
   Serial.println(Message);
-  client.publish("outTopic", Message);
+  client.publish("Supervisorio/Inversor1/Corrente", Message);
   delay(5000);
   value++;
 }
@@ -62,18 +62,15 @@ void Callback(char* topic, byte* payload, unsigned int length){
     Serial.print((char)payload[i]);
   }
   Serial.println();
-  if ((char)payload[0] == 1) digitalWrite(LED_BUILTIN, HIGH);
-  else digitalWrite(LED_BUILTIN, LOW);
 }
 
 void reconnect(){
   while(!client.connected()){
     Serial.print("Tentando Reconectar ao Broker...");
-    String clientID = "ESP8266-";
-    clientID += String(random(0xffff,HEX));
+    String clientID = "ESP8266";
     if (client.connect(clientID.c_str())) {
       Serial.println("Conectado!");
-      client.publish("outTopic", "hello world"); //Publica um tópico, depois te conectado
+      client.publish("outTopic", "hello world"); //Publica um tópico, depois de conectado
       client.subscribe("inTopic"); //Subscrevendo-se no tópico InTopic
     } else {
       Serial.print("falha, rc=");
