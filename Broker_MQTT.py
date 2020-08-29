@@ -4,7 +4,7 @@ import time
 #Função responsável por realizar a conexão com o broker
 def on_connect(client, userdata, rc):
     print("Connected with result code "+str(rc))
-    client.subscribe("outTopic")
+    client.subscribe("Supervisorio/Inversor1/Corrente")
 
 #Função on_message, responsável por exibir os valores enviados
 def on_message(client, userdata, msg):
